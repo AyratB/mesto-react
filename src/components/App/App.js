@@ -1,69 +1,22 @@
-import logo from "./logo.svg";
-
-//импорт рисунков
-
-import "./App.css";
+import Header from './../Header/Header.js';
+import Footer from './../Footer/Footer.js';
+import Main from './../Main/Main.js';
 
 function App() {
   return (
     <>
       <div className="page">
         <div className="page__container">
-          <header className="header page__container-item">
-            <a className="header__link" href="#" target="_self">
-              <img
-                src="<%=require('./images/header_logo_white.svg')%>"
-                className="header__logo"
-                alt="Лого"
-              />
-            </a>
-          </header>
-          <main className="main page__container-item page__container-item_stretch_narrow">
-            <section className="profile">
-              <div className="profile__avatar-container">
-                <div className="profile__avatar-box">
-                  <img
-                    src="#"
-                    className="profile__avatar"
-                    alt="Аватар пользователя"
-                  />
-
-                  <button
-                    type="button"
-                    className="button button_type_change-avatar"
-                    aria-label="Кнопка редактирования аватара"
-                  ></button>
-                </div>
-                <div className="profile__info">
-                  <h1 className="profile__name"></h1>
-                  <button
-                    type="button"
-                    className="button button_type_edit-profile"
-                    aria-label="Кнопка редактирования профиля"
-                  ></button>
-                  <p className="profile__description"></p>
-                </div>
-              </div>
-              <button
-                type="button"
-                className="button button_type_add-element"
-                aria-label="Кнопка добавления элемента"
-              ></button>
-            </section>
-            <section className="cards">
-              <ul className="cards__list"></ul>
-            </section>
-          </main>
-          <footer className="footer page__container-item page__container-item_stretch_narrow">
-            <p className="footer__copyright">© 2021 Mesto Russia</p>
-          </footer>
+          <Header/>
+          <Main/> 
+          <Footer/>
         </div>
 
         <article className="popup popup_type_profile">
           <div className="popup__overlay"></div>
           <div className="popup__container">
             <h2 className="popup__title">Редактировать профиль</h2>
-            <form className="form" name="editProfile" novalidate>
+            <form className="form" name="editProfile" noValidate>
               <section className="form__section">
                 <input
                   type="text"
@@ -71,8 +24,8 @@ function App() {
                   name="edit-profile-name"
                   id="edit-profile-name"
                   required
-                  minlength="2"
-                  maxlength="40"
+                  minLength="2"
+                  maxLength="40"
                 />
                 <span
                   className="form__span-error"
@@ -86,8 +39,8 @@ function App() {
                   name="edit-profile-description"
                   id="edit-profile-description"
                   required
-                  minlength="2"
-                  maxlength="200"
+                  minLength="2"
+                  maxLength="200"
                 />
                 <span
                   className="form__span-error"
@@ -110,7 +63,7 @@ function App() {
           <div className="popup__overlay"></div>
           <div className="popup__container">
             <h2 className="popup__title">Новое место</h2>
-            <form className="form" name="addCard" novalidate>
+            <form className="form" name="addCard" noValidate>
               <section className="form__section">
                 <input
                   type="text"
@@ -119,8 +72,8 @@ function App() {
                   id="add-card-name"
                   placeholder="Название"
                   required
-                  minlength="2"
-                  maxlength="30"
+                  minLength="2"
+                  maxLength="30"
                 />
                 <span
                   className="form__span-error"
@@ -172,7 +125,7 @@ function App() {
             <h2 className="popup__title popup__title_type_submit">
               Вы уверены?
             </h2>
-            <form className="form" name="askDeleteCard" novalidate>
+            <form className="form" name="askDeleteCard" noValidate>
               <button type="submit" className="button button_type_save-form">
                 Да
               </button>
@@ -188,7 +141,7 @@ function App() {
           <div className="popup__overlay"></div>
           <div className="popup__container">
             <h2 className="popup__title">Обновить аватар</h2>
-            <form className="form" name="updateAvatar" novalidate>
+            <form className="form" name="updateAvatar" noValidate>
               <section className="form__section">
                 <input
                   type="url"
