@@ -16,7 +16,6 @@ reportWebVitals();
 
 
 //из файла index.js mesto
-// import { apiUserData } from "../utils/apiUserData.js";
 
 // import { FormValidator } from "../components/FormValidator.js";
 // import { Card } from "../components/Card.js";
@@ -24,9 +23,6 @@ reportWebVitals();
 // import { PopupWithImage } from "../components/PopupWithImage.js";
 // import { PopupWithForm } from "../components/PopupWithForm.js";
 // import { UserInfo } from "../components/UserInfo.js";
-// import { Api } from "../components/Api.js";
-
-// import "../pages/index.css";
 
 // const profileAvatar = document.querySelector(".profile__avatar");
 
@@ -51,10 +47,7 @@ reportWebVitals();
 //   ".cards__list"
 // );
 
-// const api = new Api({
-//   baseUrl: `${apiUserData.ariBaseUrl}/${apiUserData.userGroupNumber}`,
-//   headers: { authorization: apiUserData.userAuthorizationToken},
-// });
+
 
 // const validationConfig = {
 //   formSelector: ".form",

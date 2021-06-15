@@ -5,17 +5,34 @@ import Main from './../Main/Main.js';
 import PopupWithForm from './../PopupWithForm/PopupWithForm.js';
 import ImagePopup from './../ImagePopup/ImagePopup.js';
 
+import React from 'react';
+
 function App() {
+
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
+  const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
+
+  const handleEditProfileClick = () => setEditProfilePopupOpen(true);
+  const handleAddPlaceClick = () => setAddPlacePopupOpen(true);
+  const handleEditAvatarClick = () => setEditAvatarPopupOpen(true);
+
+  const closeAllPopups = () => {
+    setEditProfilePopupOpen(false);
+    setAddPlacePopupOpen(false);
+    setEditAvatarPopupOpen(false);
+  }
+  
   return (
     <>
       <div className="page">
         <div className="page__container">
           <Header/>
-          <Main/> 
+          <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick}/> 
           <Footer/>
         </div>
 
-        <PopupWithForm name='edit-profile' headerText='Редактировать профиль' buttonSaveText='Сохранить'>
+        <PopupWithForm name='edit-profile' headerText='Редактировать профиль' buttonSaveText='Сохранить' isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
           <section className="form__section">
             <input type="text" className="form__input" name="edit-profile-name" id="edit-profile-name" required minLength="2" maxLength="40"/>
             <span className="form__span-error" id="edit-profile-name-error"></span>
@@ -26,7 +43,7 @@ function App() {
           </section>
         </PopupWithForm>
 
-        <PopupWithForm name='add-card' headerText='Новое место' buttonSaveText='Создать'>
+        <PopupWithForm name='add-card' headerText='Новое место' buttonSaveText='Создать' isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
           <section className="form__section">
             <input type="text" className="form__input" name="add-card-name" id="add-card-name" placeholder="Название" required minLength="2" maxLength="30"/>
             <span className="form__span-error" id="add-card-name-error"></span>
@@ -39,7 +56,7 @@ function App() {
 
         <PopupWithForm name='submit-delete' headerText='Вы уверены?' buttonSaveText='Да'></PopupWithForm>
 
-        <PopupWithForm name='update-avatar' headerText='Обновить аватар' buttonSaveText='Сохранить'>
+        <PopupWithForm name='update-avatar' headerText='Обновить аватар' buttonSaveText='Сохранить' isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
           <section className="form__section">
             <input type="url" className="form__input" name="update-avatar-url" id="update-avatar-url" placeholder="Ссылка на аватар" required/>
             <span className="form__span-error" id="update-avatar-url-error"></span>
@@ -47,11 +64,6 @@ function App() {
         </PopupWithForm>
 
         <ImagePopup></ImagePopup>
-
-        
-
-        
-
         
       </div>
       <template id="card-template">
