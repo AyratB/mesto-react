@@ -3,6 +3,7 @@ import Footer from './../Footer/Footer.js';
 import Main from './../Main/Main.js';
 
 import PopupWithForm from './../PopupWithForm/PopupWithForm.js';
+import ImagePopup from './../ImagePopup/ImagePopup.js';
 
 function App() {
   return (
@@ -43,23 +44,11 @@ function App() {
             <input type="url" className="form__input" name="update-avatar-url" id="update-avatar-url" placeholder="Ссылка на аватар" required/>
             <span className="form__span-error" id="update-avatar-url-error"></span>
           </section>
-        </PopupWithForm>        
+        </PopupWithForm>
 
+        <ImagePopup></ImagePopup>
 
-        <article className="popup popup_type_image">
-          <div className="popup__overlay"></div>
-          <div className="popup__container popup__container_type_image">
-            <figure className="figure">
-              <img src="#" className="figure__image" alt="#" />
-              <figcaption className="figure__caption"></figcaption>
-            </figure>
-            <button
-              type="button"
-              className="button button_type_close-popup"
-              aria-label="Кнопка закрытия зума"
-            ></button>
-          </div>
-        </article>
+        
 
         
 
