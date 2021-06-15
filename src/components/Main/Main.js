@@ -13,6 +13,7 @@ function Main() {
               type="button"
               className="button button_type_change-avatar"
               aria-label="Кнопка редактирования аватара"
+              onClick={handleEditAvatarClick}
             ></button>
           </div>
           <div className="profile__info">
@@ -21,6 +22,7 @@ function Main() {
               type="button"
               className="button button_type_edit-profile"
               aria-label="Кнопка редактирования профиля"
+              onClick={handleEditProfileClick}
             ></button>
             <p className="profile__description"></p>
           </div>
@@ -29,6 +31,7 @@ function Main() {
           type="button"
           className="button button_type_add-element"
           aria-label="Кнопка добавления элемента"
+          onClick={handleAddPlaceClick}
         ></button>
       </section>
       <section className="cards">
@@ -36,6 +39,20 @@ function Main() {
       </section>
     </main>
   );
+
+  function handleEditAvatarClick() {
+    
+    document.querySelector('.popup_type_update-avatar').classList.add('popup_opened');
+  }
+
+  function handleEditProfileClick() {
+    
+      document.querySelector('.popup_type_edit-profile').classList.add('popup_opened');
+    }
+
+  function handleAddPlaceClick() {
+    document.querySelector('.popup_type_add-card').classList.add('popup_opened');
+  }
 }
 
 export default Main;
