@@ -1,5 +1,6 @@
 import React from "react";
 import { api } from "./../../utils/Api";
+import Card from './../Card/Card.js';
 
 function Main(props) {
   //исходные данные пользователя
@@ -64,24 +65,7 @@ function Main(props) {
           {cards.map((card) => {
             return (
               <li key={card._id} className="card">
-                <div
-                  style={{ backgroundImage: `url(${card.link})` }}
-                  className="card__image"
-                ></div>
-                <div className="card__sign">
-                  <h2 className="card__description">{card.name}</h2>
-                  <div className="card__heart-container">
-                    <button
-                      type="button"
-                      className="card__heart"
-                      aria-label="Иконка лайка"
-                    ></button>
-                    <span className="card__heart-voices">
-                      {card.likes.length}
-                    </span>
-                  </div>
-                </div>
-                <button className="button button_type_delete-card button_hidden"></button>
+                <Card cardData={card}></Card>
               </li>
             );
           })}
