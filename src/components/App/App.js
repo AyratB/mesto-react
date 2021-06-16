@@ -18,9 +18,12 @@ function App() {
   const handleEditAvatarClick = () => setEditAvatarPopupOpen(true);
 
   const closeAllPopups = () => {
-    setEditProfilePopupOpen(false);
-    setAddPlacePopupOpen(false);
-    setEditAvatarPopupOpen(false);
+    if(isEditProfilePopupOpen)
+      setEditProfilePopupOpen(false);
+    if(isAddPlacePopupOpen)
+      setAddPlacePopupOpen(false);
+    if(isEditAvatarPopupOpen)
+      setEditAvatarPopupOpen(false);
   }
   
   return (

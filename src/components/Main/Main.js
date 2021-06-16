@@ -1,32 +1,31 @@
-import { useState } from "react";
+import React from "react";
 import { api } from "./../../utils/Api";
 
 function Main(props) {
-
-  const [userName, setUserName] = useState("");
-  const [userDescription, setUserDescription] = useState("");
-  const [userAvatar, setUserAvatar] = useState("");
+  const [userName, setUserName] = React.useState("");
+  const [userDescription, setUserDescription] = React.useState("");
+  const [userAvatar, setUserAvatar] = React.useState("");
 
   //инициализация исходных данных
-  // React.useEffect(() => {
+  React.useEffect(() => {
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([user, cardsData]) => {
         
-  //   function handleMouseMove(event) {
-  //     setPosition({
-  //       top: event.pageY,
-  //       left: event.pageX,
-  //     });
-  //   }
-
+        //установка исходных данных
+        setUserName(user.name);
+        setUserDescription(user.about);
+        setUserAvatar(user.avatar);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <main className="main page__container-item page__container-item_stretch_narrow">
       <section className="profile">
         <div className="profile__avatar-container">
           <div className="profile__avatar-box">
-            <img
-              src="#"
+            <div style={{ backgroundImage: `url(${userAvatar})` }}
               className="profile__avatar"
-              alt="Аватар пользователя"
             />
             <button
               type="button"
@@ -36,14 +35,14 @@ function Main(props) {
             ></button>
           </div>
           <div className="profile__info">
-            <h1 className="profile__name"></h1>
+            <h1 className="profile__name">{userName}</h1>
             <button
               type="button"
               className="button button_type_edit-profile"
               aria-label="Кнопка редактирования профиля"
               onClick={props.onEditProfile}
             ></button>
-            <p className="profile__description"></p>
+            <p className="profile__description">{userDescription}</p>
           </div>
         </div>
         <button
@@ -58,8 +57,6 @@ function Main(props) {
       </section>
     </main>
   );
-
-  
 }
 
 export default Main;
