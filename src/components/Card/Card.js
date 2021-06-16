@@ -1,9 +1,14 @@
 function Card(props) {
+  function handleClick() {
+    props.onCardClick(props.cardData);
+  }
+
   return (
     <>
       <div
         style={{ backgroundImage: `url(${props.cardData.link})` }}
         className="card__image"
+        onClick={handleClick}
       ></div>
       <div className="card__sign">
         <h2 className="card__description">{props.cardData.name}</h2>
