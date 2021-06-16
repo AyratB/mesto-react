@@ -2,19 +2,25 @@ import React from "react";
 import { api } from "./../../utils/Api";
 
 function Main(props) {
+  //исходные данные пользователя
   const [userName, setUserName] = React.useState("");
   const [userDescription, setUserDescription] = React.useState("");
   const [userAvatar, setUserAvatar] = React.useState("");
+
+  //карточки
+  const [cards, setCards] = React.useState([]);
 
   //инициализация исходных данных
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([user, cardsData]) => {
-        
         //установка исходных данных
         setUserName(user.name);
         setUserDescription(user.about);
         setUserAvatar(user.avatar);
+
+        //прорисовка карточек
+        setCards(cardsData);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -24,9 +30,10 @@ function Main(props) {
       <section className="profile">
         <div className="profile__avatar-container">
           <div className="profile__avatar-box">
-            <div style={{ backgroundImage: `url(${userAvatar})` }}
+            <div
+              style={{ backgroundImage: `url(${userAvatar})` }}
               className="profile__avatar"
-            />
+            ></div>
             <button
               type="button"
               className="button button_type_change-avatar"
@@ -53,7 +60,32 @@ function Main(props) {
         ></button>
       </section>
       <section className="cards">
-        <ul className="cards__list"></ul>
+        <ul className="cards__list">
+          {cards.map((card) => {
+            return (
+              <li key={card._id} className="card">
+                <div
+                  style={{ backgroundImage: `url(${card.link})` }}
+                  className="card__image"
+                ></div>
+                <div className="card__sign">
+                  <h2 className="card__description">{card.name}</h2>
+                  <div className="card__heart-container">
+                    <button
+                      type="button"
+                      className="card__heart"
+                      aria-label="Иконка лайка"
+                    ></button>
+                    <span className="card__heart-voices">
+                      {card.likes.length}
+                    </span>
+                  </div>
+                </div>
+                <button className="button button_type_delete-card button_hidden"></button>
+              </li>
+            );
+          })}
+        </ul>
       </section>
     </main>
   );

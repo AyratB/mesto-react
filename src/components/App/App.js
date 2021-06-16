@@ -67,46 +67,8 @@ function App() {
         </PopupWithForm>
 
         <ImagePopup></ImagePopup>
-        
-      </div>
-      <template id="card-template">
-        <li className="card">
-          <img src="#" alt="#" className="card__image" />
-          <div className="card__sign">
-            <h2 className="card__description"></h2>
-            <div className="card__heart-container">
-              <button
-                type="button"
-                className="card__heart"
-                aria-label="Иконка лайка"
-              ></button>
-              <span className="card__heart-voices"></span>
-            </div>
-          </div>
-          <button className="button button_type_delete-card button_hidden"></button>
-        </li>
-      </template>      
+      </div>          
     </>
-
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.js</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header>
-    // </div>
-
-
-
   );
 }
 

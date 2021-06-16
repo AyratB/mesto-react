@@ -47,8 +47,6 @@ reportWebVitals();
 //   ".cards__list"
 // );
 
-
-
 // const validationConfig = {
 //   formSelector: ".form",
 //   inputSelector: ".form__input",
