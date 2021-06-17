@@ -4,7 +4,7 @@ function Card(props) {
   }
 
   return (
-    <>
+    <li className="card">
       <div
         style={{ backgroundImage: `url(${props.cardData.link})` }}
         className="card__image"
@@ -24,7 +24,7 @@ function Card(props) {
         </div>
       </div>
       <button className="button button_type_delete-card button_hidden"></button>
-    </>
+    </li>
   );
 }
 

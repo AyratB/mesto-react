@@ -1,6 +1,6 @@
 import React from "react";
-import { api } from "./../../utils/Api";
-import Card from './../Card/Card.js';
+import { api } from "../../utils/api";
+import Card from "./../Card/Card.js";
 
 function Main(props) {
   //исходные данные пользователя
@@ -64,9 +64,11 @@ function Main(props) {
         <ul className="cards__list">
           {cards.map((card) => {
             return (
-              <li key={card._id} className="card">
-                <Card cardData={card} onCardClick={()=> props.onCardClick(card)}></Card>
-              </li>
+              <Card
+                key={card._id}
+                cardData={card}
+                onCardClick={() => props.onCardClick(card)}
+              ></Card>
             );
           })}
         </ul>

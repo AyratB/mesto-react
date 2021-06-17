@@ -1,4 +1,4 @@
-import { apiUserData } from "../utils/apiUserData.js";
+import { apiUserData } from "./apiUserData.js";
 
 class Api {
   constructor({ baseUrl, headers }) {
