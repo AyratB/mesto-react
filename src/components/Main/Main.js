@@ -1,6 +1,7 @@
 import React from "react";
 import { api } from "../../utils/api";
 import Card from "./../Card/Card.js";
+import Button from "./../Button/Button.js";
 
 function Main(props) {
   //исходные данные пользователя
@@ -11,10 +12,13 @@ function Main(props) {
   //карточки
   const [cards, setCards] = React.useState([]);
 
+  const [isButtonChangeAvatarVisible, setCssButtonEditAvatarStyles] = React.useState(false);
+
   //инициализация исходных данных
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([user, cardsData]) => {
+        debugger;
         //установка исходных данных
         setUserName(user.name);
         setUserDescription(user.about);
@@ -26,6 +30,21 @@ function Main(props) {
       .catch((err) => console.log(err));
   }, []);
 
+  function makeButtonChangeAvatarProfileVisible() {
+    debugger;
+    setCssButtonEditAvatarStyles(true);
+  }
+  
+  function makeButtonChangeAvatarProfileUnvisible() {
+    debugger;
+    setCssButtonEditAvatarStyles(false);
+  }
+
+  const cssEditAvatarButton = {
+    visibility: 'visible',
+    opacity: 1,
+  };
+
   return (
     <main className="main page__container-item page__container-item_stretch_narrow">
       <section className="profile">
@@ -33,14 +52,17 @@ function Main(props) {
           <div className="profile__avatar-box">
             <div
               style={{ backgroundImage: `url(${userAvatar})` }}
-              className="profile__avatar"
+              className="profile__avatar"              
             ></div>
-            <button
+
+            {/* <Button
               type="button"
               className="button button_type_change-avatar"
-              aria-label="Кнопка редактирования аватара"
-              onClick={props.onEditAvatar}
-            ></button>
+              ariaLabel="Кнопка редактирования аватара"
+              onMouseOver={makeButtonChangeAvatarProfileVisible}
+              onMouseOut={makeButtonChangeAvatarProfileUnvisible}
+              style={isButtonChangeAvatarVisible ? {cssEditAvatarButton} : {}}
+            ></Button> */}
           </div>
           <div className="profile__info">
             <h1 className="profile__name">{userName}</h1>
