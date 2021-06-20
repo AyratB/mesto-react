@@ -1,10 +1,15 @@
 function Button(props) {
-    debugger;
   return (
     <button
-      type="button"
-      className = {props.className}
-    ></button>
+      type={props.type}
+      className={props.className}
+      onMouseEnter={props.onMouseEnter}
+      onMouseLeave={props.onMouseLeave}
+      onClick={props.onClick}
+      style={props.style}
+    >
+      {props.buttonText}
+    </button>
   );
 }
 

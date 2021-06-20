@@ -12,13 +12,13 @@ function Main(props) {
   //карточки
   const [cards, setCards] = React.useState([]);
 
-  const [isButtonChangeAvatarVisible, setCssButtonEditAvatarStyles] = React.useState(false);
+  const [isButtonChangeAvatarVisible, setCssButtonEditAvatarStyles] =
+    React.useState(false);
 
   //инициализация исходных данных
   React.useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
       .then(([user, cardsData]) => {
-        debugger;
         //установка исходных данных
         setUserName(user.name);
         setUserDescription(user.about);
@@ -31,17 +31,14 @@ function Main(props) {
   }, []);
 
   function makeButtonChangeAvatarProfileVisible() {
-    debugger;
     setCssButtonEditAvatarStyles(true);
   }
-  
+
   function makeButtonChangeAvatarProfileUnvisible() {
-    debugger;
     setCssButtonEditAvatarStyles(false);
   }
 
   const cssEditAvatarButton = {
-    visibility: 'visible',
     opacity: 1,
   };
 
@@ -52,35 +49,35 @@ function Main(props) {
           <div className="profile__avatar-box">
             <div
               style={{ backgroundImage: `url(${userAvatar})` }}
-              className="profile__avatar"              
+              className="profile__avatar"
             ></div>
-
-            {/* <Button
+            <Button
               type="button"
               className="button button_type_change-avatar"
               ariaLabel="Кнопка редактирования аватара"
-              onMouseOver={makeButtonChangeAvatarProfileVisible}
-              onMouseOut={makeButtonChangeAvatarProfileUnvisible}
-              style={isButtonChangeAvatarVisible ? {cssEditAvatarButton} : {}}
-            ></Button> */}
+              onMouseEnter={makeButtonChangeAvatarProfileVisible}
+              onMouseLeave={makeButtonChangeAvatarProfileUnvisible}
+              onClick={props.onEditAvatar}
+              style={isButtonChangeAvatarVisible ? cssEditAvatarButton : null}
+            ></Button>
           </div>
           <div className="profile__info">
             <h1 className="profile__name">{userName}</h1>
-            <button
+            <Button
               type="button"
               className="button button_type_edit-profile"
-              aria-label="Кнопка редактирования профиля"
+              ariaLabel="Кнопка редактирования профиля"
               onClick={props.onEditProfile}
-            ></button>
+            ></Button>
             <p className="profile__description">{userDescription}</p>
           </div>
         </div>
-        <button
+        <Button
           type="button"
           className="button button_type_add-element"
-          aria-label="Кнопка добавления элемента"
+          ariaLabel="Кнопка добавления элемента"
           onClick={props.onAddPlace}
-        ></button>
+        ></Button>
       </section>
       <section className="cards">
         <ul className="cards__list">
@@ -90,7 +87,7 @@ function Main(props) {
                 key={card._id}
                 cardData={card}
                 onCardClick={() => props.onCardClick(card)}
-              ></Card>
+              />
             );
           })}
         </ul>

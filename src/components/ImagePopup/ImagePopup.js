@@ -1,3 +1,5 @@
+import Button from "./../Button/Button.js";
+
 function ImagePopup(props) {
   return (
     <article
@@ -9,18 +11,21 @@ function ImagePopup(props) {
           <img
             src={`${props.card ? props.card.link : "#"}`}
             className="figure__image"
-            alt={`${props.card ? props.card.name : "Временно отсутствует описание"}`}
+            alt={`${
+              props.card ? props.card.name : "Временно отсутствует описание"
+            }`}
           />
           <figcaption className="figure__caption">{`${
             props.card ? props.card.name : ""
           }`}</figcaption>
         </figure>
-        <button
+
+        <Button
           type="button"
           className="button button_type_close-popup"
-          aria-label="Кнопка закрытия зума"
+          ariaLabel="Кнопка закрытия зума"
           onClick={props.onClose}
-        ></button>
+        ></Button>
       </div>
     </article>
   );

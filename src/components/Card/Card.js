@@ -1,3 +1,5 @@
+import Button from "./../Button/Button.js";
+
 function Card(props) {
   function handleClick() {
     props.onCardClick(props.cardData);
@@ -13,17 +15,20 @@ function Card(props) {
       <div className="card__sign">
         <h2 className="card__description">{props.cardData.name}</h2>
         <div className="card__heart-container">
-          <button
+          <Button
             type="button"
             className="card__heart"
-            aria-label="Иконка лайка"
-          ></button>
+            ariaLabel="Иконка лайка"
+          ></Button>
           <span className="card__heart-voices">
             {props.cardData.likes.length}
           </span>
         </div>
       </div>
-      <button className="button button_type_delete-card button_hidden"></button>
+      <Button
+        type="button"
+        className="button button_type_delete-card button_hidden"
+      ></Button>
     </li>
   );
 }

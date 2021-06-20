@@ -1,3 +1,5 @@
+import Button from "./../Button/Button.js";
+
 function PopupWithForm(props) {
   return (
     <article
@@ -10,17 +12,18 @@ function PopupWithForm(props) {
         <h2 className="popup__title">{props.headerText}</h2>
         <form className="form" name={props.name}>
           {props.children}
-
-          <button type="submit" className="button button_type_save-form">
-            {props.buttonSaveText}
-          </button>
+          <Button
+            type="submit"
+            className="button button_type_save-form"
+            buttonText={props.buttonSaveText}
+          ></Button>
         </form>
-        <button
+        <Button
           type="button"
           className="button button_type_close-popup"
-          aria-label="Кнопка закрытия попапа"
+          ariaLabel="Кнопка закрытия попапа"
           onClick={props.onClose}
-        ></button>
+        ></Button>
       </div>
     </article>
   );
