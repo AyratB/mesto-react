@@ -1,9 +1,19 @@
+import React from "react";
 import Button from "./../Button/Button.js";
+import { CurrentUserContext } from "./../../contexts/CurrentUserContext.js";
 
 function Card(props) {
+  const currentUserContext = React.useContext(CurrentUserContext);
+
   function handleClick() {
     props.onCardClick(props.cardData);
   }
+
+  const isOwn = props.cardData.owner._id === currentUserContext.currentUserId;
+
+  const cardDeleteButtonClassName = `button button_type_delete-card ${
+    isOwn ? "" : "button_hidden"
+  }`;
 
   return (
     <li className="card">
@@ -25,10 +35,7 @@ function Card(props) {
           </span>
         </div>
       </div>
-      <Button
-        type="button"
-        className="button button_type_delete-card button_hidden"
-      ></Button>
+      <Button type="button" className={cardDeleteButtonClassName}></Button>
     </li>
   );
 }

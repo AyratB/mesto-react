@@ -3,28 +3,19 @@ import { api } from "../../utils/api";
 import Card from "./../Card/Card.js";
 import Button from "./../Button/Button.js";
 
-function Main(props) {
-  //исходные данные пользователя
-  const [userName, setUserName] = React.useState("");
-  const [userDescription, setUserDescription] = React.useState("");
-  const [userAvatar, setUserAvatar] = React.useState("");
+import { CurrentUserContext } from "./../../contexts/CurrentUserContext.js";
 
-  //карточки
+function Main(props) {
+  const currentUserContext = React.useContext(CurrentUserContext);
+
   const [cards, setCards] = React.useState([]);
 
   const [isButtonChangeAvatarVisible, setCssButtonEditAvatarStyles] =
     React.useState(false);
 
-  //инициализация исходных данных
   React.useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(([user, cardsData]) => {
-        //установка исходных данных
-        setUserName(user.name);
-        setUserDescription(user.about);
-        setUserAvatar(user.avatar);
-
-        //прорисовка карточек
+    Promise.all([api.getInitialCards()])
+      .then(([cardsData]) => {
         setCards(cardsData);
       })
       .catch((err) => console.log(err));
@@ -48,7 +39,7 @@ function Main(props) {
         <div className="profile__avatar-container">
           <div className="profile__avatar-box">
             <div
-              style={{ backgroundImage: `url(${userAvatar})` }}
+              style={{ backgroundImage: `url(${currentUserContext.avatar})` }}
               className="profile__avatar"
             ></div>
             <Button
@@ -62,14 +53,14 @@ function Main(props) {
             ></Button>
           </div>
           <div className="profile__info">
-            <h1 className="profile__name">{userName}</h1>
+            <h1 className="profile__name">{currentUserContext.name}</h1>
             <Button
               type="button"
               className="button button_type_edit-profile"
               ariaLabel="Кнопка редактирования профиля"
               onClick={props.onEditProfile}
             ></Button>
-            <p className="profile__description">{userDescription}</p>
+            <p className="profile__description">{currentUserContext.about}</p>
           </div>
         </div>
         <Button
@@ -83,11 +74,15 @@ function Main(props) {
         <ul className="cards__list">
           {cards.map((card) => {
             return (
-              <Card
+              <CurrentUserContext.Provider
+                value={currentUserContext}
                 key={card._id}
-                cardData={card}
-                onCardClick={() => props.onCardClick(card)}
-              />
+              >
+                <Card
+                  cardData={card}
+                  onCardClick={() => props.onCardClick(card)}
+                />
+              </CurrentUserContext.Provider>
             );
           })}
         </ul>
