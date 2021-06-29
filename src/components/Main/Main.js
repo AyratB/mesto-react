@@ -43,6 +43,13 @@ function Main(props) {
       });
   }
 
+  function handleCardDelete(cardToDelete) {
+    api.deleteCard({ cardId: cardToDelete._id }).then((someData) => {
+      debugger;
+      setCards(cards.filter((card) => card._id !== cardToDelete._id));
+    });
+  }
+
   const cssEditAvatarButton = {
     opacity: 1,
   };
@@ -96,6 +103,7 @@ function Main(props) {
                   cardData={card}
                   onCardClick={() => props.onCardClick(card)}
                   onCardLike={() => handleCardLike(card)}
+                  onCardDelete={() => handleCardDelete(card)}
                 />
               </CurrentUserContext.Provider>
             );

@@ -13,6 +13,10 @@ function Card(props) {
     props.onCardLike(props.cardData);
   }
 
+  function handleDeleteClick() {
+    props.onCardDelete(props.cardData);
+  }
+
   const currentUserId = currentUserContext.currentUserId;
 
   const isOwn = props.cardData.owner._id === currentUserId;
@@ -49,7 +53,12 @@ function Card(props) {
           </span>
         </div>
       </div>
-      <Button type="button" className={cardDeleteButtonClassName}></Button>
+      <Button
+        type="button"
+        ariaLabel="Кнопка удаления карточки"
+        className={cardDeleteButtonClassName}
+        onClick={handleDeleteClick}
+      ></Button>
     </li>
   );
 }
