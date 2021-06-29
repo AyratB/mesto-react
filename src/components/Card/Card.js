@@ -9,10 +9,19 @@ function Card(props) {
     props.onCardClick(props.cardData);
   }
 
-  const isOwn = props.cardData.owner._id === currentUserContext.currentUserId;
+  const currentUserId = currentUserContext.currentUserId;
+
+  const isOwn = props.cardData.owner._id === currentUserId;
+  const isLiked = props.cardData.likes.some(
+    (liker) => liker._id === currentUserId
+  );
 
   const cardDeleteButtonClassName = `button button_type_delete-card ${
     isOwn ? "" : "button_hidden"
+  }`;
+
+  const cardLikeButtonClassName = `card__heart ${
+    isLiked ? "card__heart_active" : ""
   }`;
 
   return (
@@ -27,7 +36,7 @@ function Card(props) {
         <div className="card__heart-container">
           <Button
             type="button"
-            className="card__heart"
+            className={cardLikeButtonClassName}
             ariaLabel="Иконка лайка"
           ></Button>
           <span className="card__heart-voices">
