@@ -9,6 +9,10 @@ function Card(props) {
     props.onCardClick(props.cardData);
   }
 
+  function handleLikeClick() {
+    props.onCardLike(props.cardData);
+  }
+
   const currentUserId = currentUserContext.currentUserId;
 
   const isOwn = props.cardData.owner._id === currentUserId;
@@ -38,6 +42,7 @@ function Card(props) {
             type="button"
             className={cardLikeButtonClassName}
             ariaLabel="Иконка лайка"
+            onClick={handleLikeClick}
           ></Button>
           <span className="card__heart-voices">
             {props.cardData.likes.length}

@@ -29,6 +29,20 @@ function Main(props) {
     setCssButtonEditAvatarStyles(false);
   }
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(
+      (liker) => liker._id === currentUserContext.currentUserId
+    );
+
+    api
+      .toggleApiLike({ cardId: card._id, isSetLike: !isLiked })
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        );
+      });
+  }
+
   const cssEditAvatarButton = {
     opacity: 1,
   };
@@ -81,6 +95,7 @@ function Main(props) {
                 <Card
                   cardData={card}
                   onCardClick={() => props.onCardClick(card)}
+                  onCardLike={() => handleCardLike(card)}
                 />
               </CurrentUserContext.Provider>
             );
