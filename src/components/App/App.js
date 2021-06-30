@@ -1,3 +1,5 @@
+import React from "react";
+
 import Header from "./../Header/Header.js";
 import Footer from "./../Footer/Footer.js";
 import Main from "./../Main/Main.js";
@@ -7,8 +9,7 @@ import PopupWithForm from "./../PopupWithForm/PopupWithForm.js";
 import ImagePopup from "./../ImagePopup/ImagePopup.js";
 
 import EditProfilePopup from "./../EditProfilePopup/EditProfilePopup.js";
-
-import React from "react";
+import EditAvatarPopup from "./../EditAvatarPopup/EditAvatarPopup.js";
 
 import { CurrentUserContext } from "./../../contexts/CurrentUserContext.js";
 
@@ -61,6 +62,21 @@ function App() {
       })
       .then((user) => {
         setCurrentState({ ...currentUser, name: user.name, about: user.about });
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function handleUpdateAvatar({ url }) {
+    api
+      .changeAvatar({
+        newAvatarLink: url,
+      })
+      .then((user) => {
+        setCurrentState({
+          ...currentUser,
+          avatar: user.avatar,
+        });
         closeAllPopups();
       })
       .catch((err) => console.log(err));
@@ -125,28 +141,11 @@ function App() {
           buttonSaveText="Да"
         ></PopupWithForm>
 
-        <PopupWithForm
-          name="update-avatar"
-          headerText="Обновить аватар"
-          buttonSaveText="Сохранить"
+        <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
-        >
-          <section className="form__section">
-            <input
-              type="url"
-              className="form__input"
-              name="update-avatar-url"
-              id="update-avatar-url"
-              placeholder="Ссылка на аватар"
-              required
-            />
-            <span
-              className="form__span-error"
-              id="update-avatar-url-error"
-            ></span>
-          </section>
-        </PopupWithForm>
+          onUpdateAvatar={handleUpdateAvatar}
+        />
 
         <ImagePopup card={selectedCard} onClose={closeAllPopups}></ImagePopup>
       </div>
