@@ -6,13 +6,15 @@ import { api } from "../../utils/api";
 import PopupWithForm from "./../PopupWithForm/PopupWithForm.js";
 import ImagePopup from "./../ImagePopup/ImagePopup.js";
 
+import EditProfilePopup from "./../EditProfilePopup/EditProfilePopup.js";
+
 import React from "react";
 
-import { CurrentUserContext } from './../../contexts/CurrentUserContext.js';
+import { CurrentUserContext } from "./../../contexts/CurrentUserContext.js";
 
 function App() {
-
-  const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
+  const [isEditProfilePopupOpen, setEditProfilePopupOpen] =
+    React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
@@ -41,7 +43,6 @@ function App() {
   React.useEffect(() => {
     Promise.all([api.getUserInfo()])
       .then(([user]) => {
-        
         setCurrentState({
           name: user.name,
           about: user.about,
@@ -52,24 +53,18 @@ function App() {
       .catch((err) => console.log(err));
   }, []);
 
-  // //исходные данные пользователя
-
-  // //карточки
-  // const [cards, setCards] = React.useState([]);
-
-  // const [isButtonChangeAvatarVisible, setCssButtonEditAvatarStyles] =
-  //   React.useState(false);
-
-  // //инициализация исходных данных
-  // React.useEffect(() => {
-  //   Promise.all([api.getUserInfo(), api.getInitialCards()])
-  //     .then(([user, cardsData]) => {  //       
-
-  //       //прорисовка карточек
-  //       setCards(cardsData);
-  //     })
-  //     .catch((err) => console.log(err));
-  // }, []);
+  function handleUpdateUser({ name, about }) {
+    api
+      .editUserInfo({
+        newName: name,
+        newAbout: about,
+      })
+      .then((user) => {
+        setCurrentState({ ...currentUser, name: user.name, about: user.about });
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err));
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -85,44 +80,11 @@ function App() {
           <Footer />
         </div>
 
-        <PopupWithForm
-          name="edit-profile"
-          headerText="Редактировать профиль"
-          buttonSaveText="Сохранить"
+        <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
-        >
-          <section className="form__section">
-            <input
-              type="text"
-              className="form__input"
-              name="edit-profile-name"
-              id="edit-profile-name"
-              required
-              minLength="2"
-              maxLength="40"
-            />
-            <span
-              className="form__span-error"
-              id="edit-profile-name-error"
-            ></span>
-          </section>
-          <section className="form__section">
-            <input
-              type="text"
-              className="form__input"
-              name="edit-profile-description"
-              id="edit-profile-description"
-              required
-              minLength="2"
-              maxLength="200"
-            />
-            <span
-              className="form__span-error"
-              id="edit-profile-description-error"
-            ></span>
-          </section>
-        </PopupWithForm>
+          onUpdateUser={handleUpdateUser}
+        />
 
         <PopupWithForm
           name="add-card"

@@ -10,7 +10,7 @@ function PopupWithForm(props) {
       <div className="popup__overlay"></div>
       <div className="popup__container">
         <h2 className="popup__title">{props.headerText}</h2>
-        <form className="form" name={props.name}>
+        <form className="form" name={props.name} onSubmit={props.onSubmit}>
           {props.children}
           <Button
             type="submit"
