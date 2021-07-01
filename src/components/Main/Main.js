@@ -1,25 +1,14 @@
 import React from "react";
-import { api } from "../../utils/api";
 import Card from "./../Card/Card.js";
 import Button from "./../Button/Button.js";
 
 import { CurrentUserContext } from "./../../contexts/CurrentUserContext.js";
 
 function Main(props) {
-  const currentUserContext = React.useContext(CurrentUserContext);
-
-  const [cards, setCards] = React.useState([]);
-
+  const currentUserContext = React.useContext(CurrentUserContext);  
+  
   const [isButtonChangeAvatarVisible, setCssButtonEditAvatarStyles] =
-    React.useState(false);
-
-  React.useEffect(() => {
-    Promise.all([api.getInitialCards()])
-      .then(([cardsData]) => {
-        setCards(cardsData);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    React.useState(false);  
 
   function makeButtonChangeAvatarProfileVisible() {
     setCssButtonEditAvatarStyles(true);
@@ -27,28 +16,7 @@ function Main(props) {
 
   function makeButtonChangeAvatarProfileUnvisible() {
     setCssButtonEditAvatarStyles(false);
-  }
-
-  function handleCardLike(card) {
-    const isLiked = card.likes.some(
-      (liker) => liker._id === currentUserContext.currentUserId
-    );
-
-    api
-      .toggleApiLike({ cardId: card._id, isSetLike: !isLiked })
-      .then((newCard) => {
-        setCards((state) =>
-          state.map((c) => (c._id === card._id ? newCard : c))
-        );
-      });
-  }
-
-  function handleCardDelete(cardToDelete) {
-    api.deleteCard({ cardId: cardToDelete._id }).then((someData) => {
-      debugger;
-      setCards(cards.filter((card) => card._id !== cardToDelete._id));
-    });
-  }
+  }  
 
   const cssEditAvatarButton = {
     opacity: 1,
@@ -93,7 +61,7 @@ function Main(props) {
       </section>
       <section className="cards">
         <ul className="cards__list">
-          {cards.map((card) => {
+          {props.cards.map((card) => {
             return (
               <CurrentUserContext.Provider
                 value={currentUserContext}
@@ -101,9 +69,9 @@ function Main(props) {
               >
                 <Card
                   cardData={card}
-                  onCardClick={() => props.onCardClick(card)}
-                  onCardLike={() => handleCardLike(card)}
-                  onCardDelete={() => handleCardDelete(card)}
+                  onCardClick={props.onCardClick}
+                  onCardLike={props.onCardLike}
+                  onCardDelete={props.onCardDelete}
                 />
               </CurrentUserContext.Provider>
             );

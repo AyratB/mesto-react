@@ -10,6 +10,7 @@ import ImagePopup from "./../ImagePopup/ImagePopup.js";
 
 import EditProfilePopup from "./../EditProfilePopup/EditProfilePopup.js";
 import EditAvatarPopup from "./../EditAvatarPopup/EditAvatarPopup.js";
+import AddPlacePopup from "./../AddPlacePopup/AddPlacePopup.js";
 
 import { CurrentUserContext } from "./../../contexts/CurrentUserContext.js";
 
@@ -82,6 +83,44 @@ function App() {
       .catch((err) => console.log(err));
   }
 
+  const [cards, setCards] = React.useState([]);
+
+  React.useEffect(() => {
+    Promise.all([api.getInitialCards()])
+      .then(([cardsData]) => {
+        setCards(cardsData);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  function handleCardLike(card) {
+    
+    const isLiked = card.likes.some(
+      (liker) => liker._id === currentUser.currentUserId
+    );
+
+    api
+      .toggleApiLike({ cardId: card._id, isSetLike: !isLiked })
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        );
+      });
+  }
+
+  function handleCardDelete(cardToDelete) {
+    api.deleteCard({ cardId: cardToDelete._id }).then((someData) => {
+      setCards(cards.filter((card) => card._id !== cardToDelete._id));
+    });
+  }
+
+  function handleAddPlaceSubmit({ description, url }) {
+    api.addNewCard({ cardName: description, cardLink: url }).then((newCard) => {
+      setCards([newCard, ...cards]);
+      closeAllPopups();
+    });
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -92,6 +131,9 @@ function App() {
             onAddPlace={handleAddPlaceClick}
             onEditAvatar={handleEditAvatarClick}
             onCardClick={handleCardClick}
+            cards={cards}
+            onCardLike={handleCardLike}
+            onCardDelete={handleCardDelete}
           />
           <Footer />
         </div>
@@ -102,38 +144,11 @@ function App() {
           onUpdateUser={handleUpdateUser}
         />
 
-        <PopupWithForm
-          name="add-card"
-          headerText="Новое место"
-          buttonSaveText="Создать"
+        <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
-        >
-          <section className="form__section">
-            <input
-              type="text"
-              className="form__input"
-              name="add-card-name"
-              id="add-card-name"
-              placeholder="Название"
-              required
-              minLength="2"
-              maxLength="30"
-            />
-            <span className="form__span-error" id="add-card-name-error"></span>
-          </section>
-          <section className="form__section">
-            <input
-              type="url"
-              className="form__input"
-              name="add-card-url"
-              id="add-card-url"
-              placeholder="Ссылка на картинку"
-              required
-            />
-            <span className="form__span-error" id="add-card-url-error"></span>
-          </section>
-        </PopupWithForm>
+          onAddPlace={handleAddPlaceSubmit}
+        />
 
         <PopupWithForm
           name="submit-delete"
