@@ -5,12 +5,12 @@ import Footer from "./../Footer/Footer.js";
 import Main from "./../Main/Main.js";
 import { api } from "../../utils/api";
 
-import PopupWithForm from "./../PopupWithForm/PopupWithForm.js";
 import ImagePopup from "./../ImagePopup/ImagePopup.js";
 
 import EditProfilePopup from "./../EditProfilePopup/EditProfilePopup.js";
 import EditAvatarPopup from "./../EditAvatarPopup/EditAvatarPopup.js";
 import AddPlacePopup from "./../AddPlacePopup/AddPlacePopup.js";
+import SubmitDeletePopup from "./../SubmitDeletePopup/SubmitDeletePopup.js";
 
 import { CurrentUserContext } from "./../../contexts/CurrentUserContext.js";
 
@@ -20,6 +20,8 @@ function App() {
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
+  const [isSubmitDeletePopupOpen, setSubmitDeletePopupOpen] =
+    React.useState(false);
 
   const handleEditProfileClick = () => setEditProfilePopupOpen(true);
   const handleAddPlaceClick = () => setAddPlacePopupOpen(true);
@@ -33,7 +35,10 @@ function App() {
     if (selectedCard) {
       setSelectedCard(null);
     }
+    if (isSubmitDeletePopupOpen) setSubmitDeletePopupOpen(false);
   };
+
+  const [cardToDelete, setcardToDelete] = React.useState({});
 
   const [currentUser, setCurrentState] = React.useState({
     name: "Загрузка...",
@@ -94,7 +99,6 @@ function App() {
   }, []);
 
   function handleCardLike(card) {
-    
     const isLiked = card.likes.some(
       (liker) => liker._id === currentUser.currentUserId
     );
@@ -109,8 +113,15 @@ function App() {
   }
 
   function handleCardDelete(cardToDelete) {
+    setSubmitDeletePopupOpen(true);
+    setcardToDelete(cardToDelete);
+  }
+
+  function handleSubmitCardDelete() {
     api.deleteCard({ cardId: cardToDelete._id }).then((someData) => {
       setCards(cards.filter((card) => card._id !== cardToDelete._id));
+      setcardToDelete({});
+      closeAllPopups();
     });
   }
 
@@ -150,11 +161,11 @@ function App() {
           onAddPlace={handleAddPlaceSubmit}
         />
 
-        <PopupWithForm
-          name="submit-delete"
-          headerText="Вы уверены?"
-          buttonSaveText="Да"
-        ></PopupWithForm>
+        <SubmitDeletePopup
+          isOpen={isSubmitDeletePopupOpen}
+          onClose={closeAllPopups}
+          onSubmitDeleteCard={handleSubmitCardDelete}
+        />
 
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
