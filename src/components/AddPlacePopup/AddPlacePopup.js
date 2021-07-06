@@ -1,10 +1,24 @@
 import React from "react";
 import PopupWithForm from "./../PopupWithForm/PopupWithForm.js";
+import { FormValidator } from "./../../utils/FormValidator.js";
+import { validationConfig } from "./../../utils/validationConfig.js";
 
 function AddPlacePopup(props) {
-  
   const newCardNameRef = React.useRef();
   const newCardUrlRef = React.useRef();
+  
+  let addCardFormValidator;
+
+  if (props.isOpen && document.forms["add-card"]) {
+    addCardFormValidator = new FormValidator(
+      validationConfig,
+      document.forms["add-card"]
+    );
+
+    addCardFormValidator.enableValidation();
+  } else {
+    addCardFormValidator = null;
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -14,6 +28,15 @@ function AddPlacePopup(props) {
       url: newCardUrlRef.current.value,
     });
   }
+
+  React.useEffect(() => {
+    return () => {
+      if (addCardFormValidator) {        
+        addCardFormValidator.clearAllFormErrors();
+        addCardFormValidator.makeButtonDisable();
+      }
+    };
+  });
 
   return (
     <PopupWithForm

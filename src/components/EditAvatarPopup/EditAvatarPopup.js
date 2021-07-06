@@ -2,12 +2,37 @@ import React from "react";
 
 import PopupWithForm from "./../PopupWithForm/PopupWithForm.js";
 
+import { FormValidator } from "./../../utils/FormValidator.js";
+import { validationConfig } from "./../../utils/validationConfig.js";
+
 function EditAvatarPopup(props) {
   const avatarRef = React.useRef();
 
+  let changeAvatarFormValidator;
+
+  if (props.isOpen && document.forms["update-avatar"]) {
+    changeAvatarFormValidator = new FormValidator(
+      validationConfig,
+      document.forms["update-avatar"]
+    );
+
+    changeAvatarFormValidator.enableValidation();
+  } else {
+    changeAvatarFormValidator = null;
+  }
+
+  React.useEffect(() => {
+    return () => {
+      if (changeAvatarFormValidator) {
+        changeAvatarFormValidator.clearAllFormErrors();
+        changeAvatarFormValidator.makeButtonDisable();
+      }
+    };
+  });
+
   function handleSubmit(e) {
     e.preventDefault();
-    
+
     props.onUpdateAvatar({
       url: avatarRef.current.value,
     });

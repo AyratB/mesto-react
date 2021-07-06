@@ -2,16 +2,27 @@ import React from "react";
 import PopupWithForm from "./../PopupWithForm/PopupWithForm.js";
 import { CurrentUserContext } from "./../../contexts/CurrentUserContext.js";
 
+import { FormValidator } from "./../../utils/FormValidator.js";
+import { validationConfig } from "./../../utils/validationConfig.js";
+
 function EditProfilePopup(props) {
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
+  const [isFormWasClosedWithoutSaving, setIsFormWasClosedWithoutSaving] = React.useState(false);
 
   function handleChangeName(e) {
-    setName(e.target.value);
+
+    let input = e.target;
+
+    if(editProfileFormValidator.isInputValidity(input))
+      setName(input.value);
   }
 
   function handleChangeDescription(e) {
-    setDescription(e.target.value);
+    let input = e.target;
+
+    if(editProfileFormValidator.isInputValidity(input))
+      setDescription(input.value);
   }
 
   function handleSubmit(e) {
@@ -21,14 +32,44 @@ function EditProfilePopup(props) {
       name,
       about: description,
     });
+  } 
+
+  const currentUser= React.useContext(CurrentUserContext);
+
+  if(props.isOpen && isFormWasClosedWithoutSaving && (currentUser.name !== name || currentUser.about !== description)){
+    
+    setName(currentUser.name);
+    setDescription(currentUser.about);
+
+    setIsFormWasClosedWithoutSaving(false);
   }
 
-  const currentUser = React.useContext(CurrentUserContext);
+  let editProfileFormValidator;
+
+  if (props.isOpen && document.forms["edit-profile"]) {
+    editProfileFormValidator = new FormValidator(
+      validationConfig,
+      document.forms["edit-profile"]
+    );
+
+    editProfileFormValidator.enableValidation();
+  } else {
+    editProfileFormValidator = null;
+  } 
 
   React.useEffect(() => {
     setName(currentUser.name);
     setDescription(currentUser.about);
   }, [currentUser]);
+
+  function handleFormClose(e) {
+    if((currentUser.name !== name || currentUser.about !== description)){
+      
+      setIsFormWasClosedWithoutSaving(true);
+    }
+      
+    props.onClose();
+  } 
 
   return (
     <PopupWithForm
@@ -36,8 +77,8 @@ function EditProfilePopup(props) {
       headerText="Редактировать профиль"
       buttonSaveText="Сохранить"
       isOpen={props.isOpen}
-      onClose={props.onClose}
-      onSubmit={handleSubmit}
+      onClose={handleFormClose}
+      onSubmit={handleSubmit}      
     >
       <section className="form__section">
         <input
@@ -49,7 +90,7 @@ function EditProfilePopup(props) {
           minLength="2"
           maxLength="40"
           value={name}
-          onChange={handleChangeName}
+          onChange={handleChangeName}          
         />
         <span className="form__span-error" id="edit-profile-name-error"></span>
       </section>

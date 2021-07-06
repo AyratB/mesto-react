@@ -14,7 +14,8 @@ import SubmitDeletePopup from "./../SubmitDeletePopup/SubmitDeletePopup.js";
 
 import { CurrentUserContext } from "./../../contexts/CurrentUserContext.js";
 
-function App() {
+function App() {  
+
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] =
     React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
@@ -24,8 +25,10 @@ function App() {
     React.useState(false);
 
   const handleEditProfileClick = () => setEditProfilePopupOpen(true);
-  const handleAddPlaceClick = () => setAddPlacePopupOpen(true);
+  
+  const handleAddPlaceClick = () => setAddPlacePopupOpen(true);  
   const handleEditAvatarClick = () => setEditAvatarPopupOpen(true);
+  
   const handleCardClick = (cardData) => setSelectedCard(cardData);
 
   const closeAllPopups = () => {
@@ -132,6 +135,12 @@ function App() {
     });
   }
 
+  //валидация форм
+  // addCardFormValidator.enableValidation();
+  // editProfileFormValidator.enableValidation();
+  // changeAvatarFormValidator.enableValidation();
+  //валидация форм
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -159,6 +168,7 @@ function App() {
           isOpen={isAddPlacePopupOpen}
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
+          formName={document.forms.addCard}
         />
 
         <SubmitDeletePopup

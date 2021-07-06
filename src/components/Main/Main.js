@@ -18,9 +18,7 @@ function Main(props) {
     setCssButtonEditAvatarStyles(false);
   }  
 
-  const cssEditAvatarButton = {
-    opacity: 1,
-  };
+  const cssEditAvatarButton = { opacity: 1 };
 
   return (
     <main className="main page__container-item page__container-item_stretch_narrow">
