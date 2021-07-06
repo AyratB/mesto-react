@@ -5,10 +5,10 @@ import Button from "./../Button/Button.js";
 import { CurrentUserContext } from "./../../contexts/CurrentUserContext.js";
 
 function Main(props) {
-  const currentUserContext = React.useContext(CurrentUserContext);  
-  
+  const currentUserContext = React.useContext(CurrentUserContext);
+
   const [isButtonChangeAvatarVisible, setCssButtonEditAvatarStyles] =
-    React.useState(false);  
+    React.useState(false);
 
   function makeButtonChangeAvatarProfileVisible() {
     setCssButtonEditAvatarStyles(true);
@@ -16,7 +16,7 @@ function Main(props) {
 
   function makeButtonChangeAvatarProfileUnvisible() {
     setCssButtonEditAvatarStyles(false);
-  }  
+  }
 
   const cssEditAvatarButton = { opacity: 1 };
 

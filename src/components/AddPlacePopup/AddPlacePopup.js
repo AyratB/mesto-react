@@ -6,7 +6,7 @@ import { validationConfig } from "./../../utils/validationConfig.js";
 function AddPlacePopup(props) {
   const newCardNameRef = React.useRef();
   const newCardUrlRef = React.useRef();
-  
+
   let addCardFormValidator;
 
   if (props.isOpen && document.forms["add-card"]) {
@@ -31,7 +31,7 @@ function AddPlacePopup(props) {
 
   React.useEffect(() => {
     return () => {
-      if (addCardFormValidator) {        
+      if (addCardFormValidator) {
         addCardFormValidator.clearAllFormErrors();
         addCardFormValidator.makeButtonDisable();
       }
