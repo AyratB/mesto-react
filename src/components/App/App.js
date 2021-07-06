@@ -134,12 +134,6 @@ function App() {
     });
   }
 
-  //валидация форм
-  // addCardFormValidator.enableValidation();
-  // editProfileFormValidator.enableValidation();
-  // changeAvatarFormValidator.enableValidation();
-  //валидация форм
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
