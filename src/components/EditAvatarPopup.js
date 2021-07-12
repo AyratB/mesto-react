@@ -1,9 +1,9 @@
 import React from "react";
 
-import PopupWithForm from "./../PopupWithForm/PopupWithForm.js";
+import PopupWithForm from "./PopupWithForm.js";
 
-import { FormValidator } from "./../../utils/FormValidator.js";
-import { validationConfig } from "./../../utils/validationConfig.js";
+import { FormValidator } from "./../utils/FormValidator.js";
+import { validationConfig } from "./../utils/validationConfig.js";
 
 function EditAvatarPopup(props) {
   const avatarRef = React.useRef();

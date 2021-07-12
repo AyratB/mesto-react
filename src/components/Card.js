@@ -1,6 +1,6 @@
 import React from "react";
-import Button from "./../Button/Button.js";
-import { CurrentUserContext } from "./../../contexts/CurrentUserContext.js";
+import Button from "./Button.js";
+import { CurrentUserContext } from "./../contexts/CurrentUserContext.js";
 
 function Card(props) {
   const currentUserContext = React.useContext(CurrentUserContext);

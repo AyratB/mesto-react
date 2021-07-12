@@ -30,7 +30,6 @@ export class FormValidator {
   };
 
   _hideInputError = (input) => {
-    
     const errorElement = this._form.querySelector(`#${input.id}-error`);
     errorElement.textContent = "";
     errorElement.classList.remove(this._validationConfig.errorClass);
@@ -77,17 +76,8 @@ export class FormValidator {
 
   clearAllFormErrors = () => {
     this._inputs.forEach((input) => {
-
-
-
-
-
-        
-
-
-      
       this._hideInputError(input);
-      input.value="";
+      input.value = "";
     });
   };
 

@@ -1,7 +1,8 @@
 import React from "react";
-import PopupWithForm from "./../PopupWithForm/PopupWithForm.js";
-import { FormValidator } from "./../../utils/FormValidator.js";
-import { validationConfig } from "./../../utils/validationConfig.js";
+import PopupWithForm from "./PopupWithForm.js";
+
+import { FormValidator } from "./../utils/FormValidator.js";
+import { validationConfig } from "./../utils/validationConfig.js";
 
 function AddPlacePopup(props) {
   const newCardNameRef = React.useRef();
