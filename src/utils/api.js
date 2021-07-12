@@ -61,7 +61,9 @@ class Api {
     res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export const api = new Api({
+const api = new Api({
   baseUrl: `${apiUserData.ariBaseUrl}/${apiUserData.userGroupNumber}`,
   headers: { authorization: apiUserData.userAuthorizationToken },
 });
+
+export default api;
