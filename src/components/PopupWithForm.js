@@ -2,19 +2,6 @@ import Button from "./Button.js";
 import React from "react";
 
 function PopupWithForm(props) {
-  const formRef = React.useRef();
-
-  function handleFormSubmit(e) {
-    const submitButton = formRef.current.querySelector(
-      ".button_type_save-form"
-    );
-    submitButton.textContent = "Сохранение...";
-
-    props.onSubmit(e);
-
-    submitButton.textContent = props.buttonSaveText;
-  }
-
   return (
     <article
       className={`popup popup_type_${props.name} ${
@@ -27,14 +14,13 @@ function PopupWithForm(props) {
         <form
           className="form"
           name={props.name}
-          onSubmit={handleFormSubmit}
-          ref={formRef}
+          onSubmit={props.onSubmit}
         >
           {props.children}
           <Button
             type="submit"
             className="button button_type_save-form"
-            buttonText={props.buttonSaveText}
+            buttonText={props.isLoading ? "Сохранение..." : props.buttonSaveText}
           ></Button>
         </form>
         <Button

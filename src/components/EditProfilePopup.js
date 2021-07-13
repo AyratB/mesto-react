@@ -6,22 +6,64 @@ import { FormValidator } from "./../utils/FormValidator.js";
 import { validationConfig } from "./../utils/validationConfig.js";
 
 function EditProfilePopup(props) {
+  
   const [name, setName] = React.useState("");
   const [description, setDescription] = React.useState("");
   const [isFormWasClosedWithoutSaving, setIsFormWasClosedWithoutSaving] =
     React.useState(false);
 
-  function handleChangeName(e) {
-    let input = e.target;
+  const [formValidator, setValidator] = React.useState({});
 
-    if (editProfileFormValidator.isInputValidity(input)) setName(input.value);
+  function handleChangeName(e) {
+    setName(e.target.value);
   }
 
   function handleChangeDescription(e) {
-    let input = e.target;
+    setDescription(e.target.value);
+  }
 
-    if (editProfileFormValidator.isInputValidity(input))
-      setDescription(input.value);
+  const currentUser = React.useContext(CurrentUserContext);
+
+  if (
+    props.isOpen &&
+    isFormWasClosedWithoutSaving &&
+    (currentUser.name !== name || currentUser.about !== description)
+  ) {
+    
+    setName(currentUser.name);
+    setDescription(currentUser.about);
+
+    setIsFormWasClosedWithoutSaving(false);    
+  }
+
+  React.useEffect(() => {
+
+    let editProfileFormValidator = new FormValidator(
+      validationConfig,
+      document.forms[props.formName]
+    );
+
+    setValidator(Object.assign(formValidator, editProfileFormValidator));    
+
+    editProfileFormValidator.enableValidation();    
+  }, []);
+
+  React.useEffect(() => {
+    setName(currentUser.name);
+    setDescription(currentUser.about);
+  }, [currentUser, props.isOpen]);
+
+  function handleFormClose() {
+    if (currentUser.name !== name || currentUser.about !== description) {
+      setIsFormWasClosedWithoutSaving(true);
+    }
+
+    props.onClose();
+
+    if (formValidator) {
+      formValidator.clearAllFormErrors();
+      formValidator.makeButtonDisable();
+    }    
   }
 
   function handleSubmit(e) {
@@ -33,53 +75,15 @@ function EditProfilePopup(props) {
     });
   }
 
-  const currentUser = React.useContext(CurrentUserContext);
-
-  if (
-    props.isOpen &&
-    isFormWasClosedWithoutSaving &&
-    (currentUser.name !== name || currentUser.about !== description)
-  ) {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
-
-    setIsFormWasClosedWithoutSaving(false);
-  }
-
-  let editProfileFormValidator;
-
-  if (props.isOpen && document.forms["edit-profile"]) {
-    editProfileFormValidator = new FormValidator(
-      validationConfig,
-      document.forms["edit-profile"]
-    );
-
-    editProfileFormValidator.enableValidation();
-  } else {
-    editProfileFormValidator = null;
-  }
-
-  React.useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
-  }, [currentUser]);
-
-  function handleFormClose(e) {
-    if (currentUser.name !== name || currentUser.about !== description) {
-      setIsFormWasClosedWithoutSaving(true);
-    }
-
-    props.onClose();
-  }
-
   return (
     <PopupWithForm
-      name="edit-profile"
+      name={props.formName}
       headerText="Редактировать профиль"
       buttonSaveText="Сохранить"
       isOpen={props.isOpen}
       onClose={handleFormClose}
       onSubmit={handleSubmit}
+      isLoading={props.isLoading}
     >
       <section className="form__section">
         <input

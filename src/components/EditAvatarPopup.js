@@ -8,27 +8,19 @@ import { validationConfig } from "./../utils/validationConfig.js";
 function EditAvatarPopup(props) {
   const avatarRef = React.useRef();
 
-  let changeAvatarFormValidator;
+  const [formValidator, setValidator] = React.useState({});
 
-  if (props.isOpen && document.forms["update-avatar"]) {
-    changeAvatarFormValidator = new FormValidator(
+  React.useEffect(() => {    
+
+    let editAvatarFormValidator = new FormValidator(
       validationConfig,
-      document.forms["update-avatar"]
+      document.forms[props.formName]
     );
 
-    changeAvatarFormValidator.enableValidation();
-  } else {
-    changeAvatarFormValidator = null;
-  }
+    setValidator(Object.assign(formValidator, editAvatarFormValidator));    
 
-  React.useEffect(() => {
-    return () => {
-      if (changeAvatarFormValidator) {
-        changeAvatarFormValidator.clearAllFormErrors();
-        changeAvatarFormValidator.makeButtonDisable();
-      }
-    };
-  });
+    editAvatarFormValidator.enableValidation(); 
+  }, []);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -38,13 +30,23 @@ function EditAvatarPopup(props) {
     });
   }
 
+  function handleFormClose(e) {
+
+    props.onClose();
+
+    if (formValidator) {
+      formValidator.clearAllFormErrors();
+      formValidator.makeButtonDisable();
+    }
+  }
+
   return (
     <PopupWithForm
-      name="update-avatar"
+      name={props.formName}
       headerText="Обновить аватар"
       buttonSaveText="Сохранить"
       isOpen={props.isOpen}
-      onClose={props.onClose}
+      onClose={handleFormClose}
       onSubmit={handleSubmit}
     >
       <section className="form__section">

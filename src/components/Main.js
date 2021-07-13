@@ -61,17 +61,13 @@ function Main(props) {
         <ul className="cards__list">
           {props.cards.map((card) => {
             return (
-              <CurrentUserContext.Provider
-                value={currentUserContext}
+              <Card
                 key={card._id}
-              >
-                <Card
-                  cardData={card}
-                  onCardClick={props.onCardClick}
-                  onCardLike={props.onCardLike}
-                  onCardDelete={props.onCardDelete}
-                />
-              </CurrentUserContext.Provider>
+                cardData={card}
+                onCardClick={props.onCardClick}
+                onCardLike={props.onCardLike}
+                onCardDelete={props.onCardDelete}
+              />
             );
           })}
         </ul>

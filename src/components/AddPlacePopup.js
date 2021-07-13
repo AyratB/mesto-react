@@ -8,18 +8,19 @@ function AddPlacePopup(props) {
   const newCardNameRef = React.useRef();
   const newCardUrlRef = React.useRef();
 
-  let addCardFormValidator;
+  const [formValidator, setValidator] = React.useState({});
 
-  if (props.isOpen && document.forms["add-card"]) {
-    addCardFormValidator = new FormValidator(
+  React.useEffect(() => {
+    
+    let addCardFormValidator = new FormValidator(
       validationConfig,
-      document.forms["add-card"]
+      document.forms[props.formName]
     );
 
-    addCardFormValidator.enableValidation();
-  } else {
-    addCardFormValidator = null;
-  }
+    setValidator(Object.assign(formValidator, addCardFormValidator));    
+
+    addCardFormValidator.enableValidation();  
+  }, []);  
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -30,22 +31,23 @@ function AddPlacePopup(props) {
     });
   }
 
-  React.useEffect(() => {
-    return () => {
-      if (addCardFormValidator) {
-        addCardFormValidator.clearAllFormErrors();
-        addCardFormValidator.makeButtonDisable();
-      }
-    };
-  });
+  function handleFormClose() {   
+
+    props.onClose();
+
+    if (formValidator) {
+      formValidator.clearAllFormErrors();
+      formValidator.makeButtonDisable();
+    }
+  }
 
   return (
     <PopupWithForm
-      name="add-card"
+      name={props.formName}
       headerText="Новое место"
       buttonSaveText="Создать"
       isOpen={props.isOpen}
-      onClose={props.onClose}
+      onClose={handleFormClose}
       onSubmit={handleSubmit}
     >
       <section className="form__section">
